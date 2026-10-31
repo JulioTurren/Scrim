@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test de Percepción Visual y Concentración</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes strobe {
+      0%, 100% { background-color: #000; filter: contrast(180%) invert(0); }
+      25% { background-color: #ff0000; filter: contrast(250%) invert(0.2); }
+      50% { background-color: #ffffff; filter: contrast(300%) invert(1); }
+      75% { background-color: #3b0000; filter: contrast(220%) invert(0); }
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0, 0) scale(1.05) rotate(0deg); }
+      15% { transform: translate(-15px, 12px) scale(1.18) rotate(-3deg); }
+      30% { transform: translate(14px, -18px) scale(1.1) rotate(4deg); }
+      45% { transform: translate(-18px, -12px) scale(1.22) rotate(-5deg); }
+      60% { transform: translate(16px, 15px) scale(1.15) rotate(3deg); }
+      75% { transform: translate(-12px, 18px) scale(1.25) rotate(-2deg); }
+      90% { transform: translate(18px, -10px) scale(1.12) rotate(4deg); }
+    }
+
+    @keyframes glitch {
+      0% { clip-path: inset(40% 0 61% 0); transform: skew(0.5deg); }
+      20% { clip-path: inset(92% 0 1% 0); transform: skew(-0.8deg); }
+      40% { clip-path: inset(10% 0 85% 0); transform: skew(1.2deg); }
+      60% { clip-path: inset(62% 0 14% 0); transform: skew(-1deg); }
+      80% { clip-path: inset(25% 0 58% 0); transform: skew(0.8deg); }
+      100% { clip-path: inset(70% 0 10% 0); transform: skew(0.2deg); }
+    }
+
+    .screamer-active {
+      animation: strobe 0.08s infinite steps(2);
+    }
+
+    .scare-face {
+      animation: shake 0.06s infinite linear;
+      transform-origin: center center;
+    }
+
+    /* Efecto visual de lente y lupa */
+    .magnifier-circle {
+      box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.75), 0 0 35px rgba(56, 189, 248, 0.45);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-white overflow-x-hidden">
+
+  <!-- ==================== FASE 1: TEST INOCENTE ==================== -->
+  <main id="baitScreen" class="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-4xl mx-auto transition-opacity duration-300">
+    <!-- Encabezado creíble -->
+    <header class="text-center mb-6 w-full">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 mb-3 shadow-inner">
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        Evaluación Biométrica v4.1
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
+        Test de Agudeza Óptica y Micromovimientos
+      </h1>
+      <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+        Acerca la mirada a la pantalla. Localiza la pequeña discrepancia en la retícula central y presiona sobre ella para calibrar la prueba.
+      </p>
+    </header>
+
+    <!-- Caja interactiva del "reto" -->
+    <section class="w-full bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-8 shadow-2xl relative flex flex-col items-center">
+      <div class="w-full flex justify-between items-center text-xs sm:text-sm text-slate-400 mb-4 pb-3 border-b border-slate-800">
+        <span class="font-mono">FASE: 1 / 3 (Calibración)</span>
+        <span class="text-emerald-400 font-medium flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Sensor activo
+        </span>
+      </div>
+
+      <!-- Ilustración óptica intrigante -->
+      <div id="targetArea" role="button" tabindex="0" class="group relative w-full h-72 sm:h-96 rounded-xl overflow-hidden cursor-crosshair border border-slate-700 bg-slate-950 flex items-center justify-center select-none shadow-inner">
+        <!-- Rejilla óptica de fondo -->
+        <svg class="w-full h-full opacity-60 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+              <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#334155" stroke-width="0.8" />
+              <circle cx="16" cy="16" r="1.5" fill="#475569" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          <!-- Círculos concéntricos ópticos falsos -->
+          <circle cx="50%" cy="50%" r="40" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4 4" class="animate-spin" style="animation-duration: 25s;" />
+          <circle cx="50%" cy="50%" r="90" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="8 6" />
+          <circle cx="50%" cy="50%" r="140" fill="none" stroke="#0284c7" stroke-width="0.75" />
+        </svg>
+
+        <!-- Detalle diminuto que incita a acercarse e interactuar -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+          <div class="relative flex items-center justify-center">
+            <span class="w-4 h-4 rounded-full border-2 border-red-500/80 animate-ping absolute"></span>
+            <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_12px_#ef4444]"></span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-slate-300 font-mono tracking-widest mt-4 bg-slate-900/90 px-3 py-1 rounded-md border border-slate-700 shadow">
+            ENFOQUE AQUÍ Y HAGA CLIC
+          </p>
+        </div>
+
+        <!-- Indicador de instrucción dinámico -->
+        <div class="absolute bottom-3 text-center w-full text-xs text-slate-500 font-medium">
+          💡 Mantén tu mirada fija a unos 20-30 cm de la pantalla
+        </div>
+      </div>
+
+      <!-- Botón alternativo directo -->
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-between w-full gap-4">
+        <p class="text-xs text-slate-400 text-center sm:text-left">
+          ¿No distingues el patrón rojo? Presiona el botón para aumentar el contraste y resolución.
+        </p>
+        <button id="triggerButton" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-95 text-white font-semibold text-sm transition-all shadow-lg shadow-cyan-900/30 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-cyan-400">
+          🔍 Analizar Detalle
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FASE 2: JUMPSCARE / SCREAMER ==================== -->
+  <div id="screamerContainer" class="fixed inset-0 z-50 hidden flex-col items-center justify-center select-none overflow-hidden touch-none cursor-none">
+    <!-- Rostro aterrador generado puramente en SVG de alto impacto -->
+    <div class="scare-face w-full h-full flex items-center justify-center p-2">
+      <svg class="w-full max-w-[95vw] max-h-[92vh] filter drop-shadow-[0_0_60px_#ff0000]" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fondo tenebroso interior -->
+        <rect width="800" height="800" fill="#030000" />
+        
+        <!-- Cráneo / Contorno desfigurado -->
+        <path d="M 190 220 C 180 80, 620 80, 610 220 C 650 380, 620 540, 560 670 C 490 750, 310 750, 240 670 C 180 540, 150 380, 190 220 Z" fill="#131417" stroke="#e11d48" stroke-width="12" />
+        
+        <!-- Sombras y grietas faciales -->
+        <path d="M 400 130 L 415 320 L 385 410 L 400 520" stroke="#000" stroke-width="8" stroke-linecap="round" />
+        <path d="M 230 250 L 320 310" stroke="#000" stroke-width="7" />
+        <path d="M 570 250 L 480 310" stroke="#000" stroke-width="7" />
+        <path d="M 280 630 L 340 590" stroke="#000" stroke-width="6" />
+        <path d="M 520 630 L 460 590" stroke="#000" stroke-width="6" />
+
+        <!-- Cuencas oculares gigantes e irregulares -->
+        <ellipse cx="290" cy="305" rx="90" ry="115" fill="#000000" stroke="#dc2626" stroke-width="10" />
+        <ellipse cx="510" cy="305" rx="90" ry="115" fill="#000000" stroke="#dc2626" stroke-width="10" />
+
+        <!-- Ojos desorbitados con venas y pupilas dilatadas al extremo -->
+        <circle cx="285" cy="300" r="54" fill="#f8fafc" />
+        <circle cx="515" cy="300" r="54" fill="#f8fafc" />
+        
+        <!-- Venas en el globo ocular -->
+        <path d="M 245 280 Q 265 295 270 300 M 315 270 Q 300 290 295 300 M 260 330 Q 275 315 285 305" stroke="#ef4444" stroke-width="3.5" />
+        <path d="M 475 280 Q 495 295 500 300 M 545 270 Q 530 290 525 300 M 490 330 Q 505 315 515 305" stroke="#ef4444" stroke-width="3.5" />
+
+        <!-- Iris y pupilas con reflejo sangriento -->
+        <circle cx="285" cy="300" r="28" fill="#7f1d1d" />
+        <circle cx="285" cy="300" r="16" fill="#000000" />
+        <circle cx="277" cy="292" r="5" fill="#ffffff" />
+        
+        <circle cx="515" cy="300" r="28" fill="#7f1d1d" />
+        <circle cx="515" cy="300" r="16" fill="#000000" />
+        <circle cx="507" cy="292" r="5" fill="#ffffff" />
+
+        <!-- Cavidad nasal tipo calavera -->
+        <path d="M 375 425 L 400 375 L 425 425 L 408 450 L 392 450 Z" fill="#000000" stroke="#450a0a" stroke-width="5" />
+
+        <!-- Boca descomunal abierta en grito desgarrador -->
+        <path d="M 230 480 Q 400 440 570 480 C 620 590, 590 730, 400 740 C 210 730, 180 590, 230 480 Z" fill="#000000" stroke="#991b1b" stroke-width="14" />
+
+        <!-- Garganta profunda oscura -->
+        <ellipse cx="400" cy="620" rx="100" ry="75" fill="#180202" />
+
+        <!-- Dientes afilados, podridos y puntiagudos -->
+        <!-- Hilera superior -->
+        <polygon points="260,490 275,545 290,490" fill="#fef08a" stroke="#451a03" stroke-width="2" />
+        <polygon points="295,487 315,560 330,487" fill="#fef08a" stroke="#451a03" stroke-width="2" />
+        <polygon points="335,484 355,570 375,484" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="380,482 400,580 420,482" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="425,484 445,570 465,484" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="470,487 490,560 505,487" fill="#fef08a" stroke="#451a03" stroke-width="2" />
+        <polygon points="510,490 525,545 540,490" fill="#fef08a" stroke="#451a03" stroke-width="2" />
+
+        <!-- Hilera inferior -->
+        <polygon points="275,700 290,635 305,700" fill="#fef08a" stroke="#451a03" stroke-width="2" />
+        <polygon points="315,710 335,620 355,710" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="365,720 385,610 405,720" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="415,720 435,610 455,720" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="465,710 485,620 505,710" fill="#ffffff" stroke="#451a03" stroke-width="2" />
+        <polygon points="515,700 530,635 545,700" fill="#fef08a" stroke="#451a03" stroke-width="2" />
+
+        <!-- Manchas de sangre/efecto de degradación -->
+        <path d="M 290 545 Q 295 580 292 600" stroke="#dc2626" stroke-width="4" stroke-linecap="round" />
+        <path d="M 400 580 Q 402 640 398 670" stroke="#dc2626" stroke-width="6" stroke-linecap="round" />
+        <path d="M 505 560 Q 510 600 506 630" stroke="#dc2626" stroke-width="5" stroke-linecap="round" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- ==================== FASE 3: MENSAJE FINAL (REVELACIÓN DE BROMA) ==================== -->
+  <div id="revealModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-md rounded-2xl p-6 sm:p-8 text-center shadow-2xl transform transition-all scale-100">
+      <div class="w-16 h-16 sm:w-20 sm:h-20 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-4xl sm:text-5xl mx-auto mb-4 border border-amber-500/30 animate-bounce">
+        😂
+      </div>
+
+      <h2 class="text-2xl sm:text-3xl font-black text-white mb-2 tracking-tight">
+        ¡CAÍSTE REDONDO!
+      </h2>
+      <p class="text-slate-300 text-base sm:text-lg mb-2 font-medium">
+        ¡Respira hondo, es solo una broma!
+      </p>
+      <p class="text-slate-400 text-xs sm:text-sm mb-6 leading-relaxed">
+        Tu agudeza visual está perfecta, pero tus reflejos cardíacos acaban de ponerse a prueba al 100%.
+      </p>
+
+      <div class="space-y-3">
+        <button id="copyLinkBtn" class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 font-semibold text-sm transition-all border border-slate-600 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+          <span id="copyText">Copiar enlace para asustar a un amigo</span>
+        </button>
+
+        <button id="resetBtn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-95 text-white font-bold text-sm transition-all shadow-lg shadow-emerald-900/40">
+          🔄 Reiniciar el Test
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de página falso para dar credibilidad -->
+  <footer class="text-center py-4 text-xs text-slate-600">
+    Laboratorio de Neuro-Óptica Cognitiva &copy; 2026. Todos los derechos reservados.
+  </footer>
+
+  <!-- ==================== LÓGICA Y AUDIO ==================== -->
+  <script>
+    // Referencias DOM
+    const baitScreen = document.getElementById('baitScreen');
+    const targetArea = document.getElementById('targetArea');
+    const triggerButton = document.getElementById('triggerButton');
+    const screamerContainer = document.getElementById('screamerContainer');
+    const revealModal = document.getElementById('revealModal');
+    const resetBtn = document.getElementById('resetBtn');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const copyText = document.getElementById('copyText');
+
+    let audioCtx = null;
+    let screamNodes = [];
+    let isTriggered = false;
+
+    /**
+     * Síntesis sonora del chillido/screamer usando la Web Audio API nativa.
+     * Combina ruido blanco distorsionado, osciladores FM desafinados y filtros resonantes.
+     */
+    function playScreamAudio() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const duration = 3.6;
+
+        // Master Gain
+        const masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.01, now);
+        // Explosión de volumen súbita
+        masterGain.gain.exponentialRampToValueAtTime(1.0, now + 0.05);
+        masterGain.gain.setValueAtTime(0.9, now + duration - 0.5);
+        masterGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        masterGain.connect(audioCtx.destination);
+        screamNodes.push(masterGain);
+
+        // 1. Oscilador Principal Agudo (Chirrido chillón ascendente y descendente)
+        const osc1 = audioCtx.createOscillator();
+        const osc1Gain = audioCtx.createGain();
+        osc1.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(950, now);
+        osc1.frequency.exponentialRampToValueAtTime(2600, now + 0.3);
+        osc1.frequency.linearRampToValueAtTime(1400, now + 1.2);
+        osc1.frequency.exponentialRampToValueAtTime(3200, now + 2.0);
+        osc1Gain.gain.setValueAtTime(0.45, now);
+        osc1.connect(osc1Gain);
+        osc1Gain.connect(masterGain);
+        osc1.start(now);
+        osc1.stop(now + duration);
+        screamNodes.push(osc1);
+
+        // 2. Modulador FM ultra rápido (Crea textura gutural y metálica rota)
+        const osc2 = audioCtx.createOscillator();
+        const osc2Gain = audioCtx.createGain();
+        osc2.type = 'square';
+        osc2.frequency.setValueAtTime(160, now);
+        osc2.frequency.linearRampToValueAtTime(450, now + 1.5);
+        osc2Gain.gain.setValueAtTime(400, now); // Amplitud moduladora
+        osc2.connect(osc1.frequency);
+        osc2.start(now);
+        osc2.stop(now + duration);
+        screamNodes.push(osc2);
+
+        // 3. Generador de Ruido Blanco Distorsionado (Simula aliento roto / estática ensordecedora)
+        const bufferSize = audioCtx.sampleRate * duration;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+
+        // Filtro Bandpass para acentuar frecuencias que causan alarma biológica (2.5kHz - 4.5kHz)
+        const bandpass = audioCtx.createBiquadFilter();
+        bandpass.type = 'bandpass';
+        bandpass.frequency.setValueAtTime(3200, now);
+        bandpass.Q.setValueAtTime(3.0, now);
+
+        // Curva de distorsión no lineal
+        const waveshaper = audioCtx.createWaveShaper();
+        waveshaper.curve = makeDistortionCurve(50);
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(0.5, now);
+
+        whiteNoise.connect(bandpass);
+        bandpass.connect(waveshaper);
+        waveshaper.connect(noiseGain);
+        noiseGain.connect(masterGain);
+
+        whiteNoise.start(now);
+        whiteNoise.stop(now + duration);
+        screamNodes.push(whiteNoise);
+
+        // 4. Rugido grave de fondo (sub-bajo impactante)
+        const subOsc = audioCtx.createOscillator();
+        const subGain = audioCtx.createGain();
+        subOsc.type = 'triangle';
+        subOsc.frequency.setValueAtTime(110, now);
+        subOsc.frequency.exponentialRampToValueAtTime(55, now + 0.8);
+        subGain.gain.setValueAtTime(0.6, now);
+        subGain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+        subOsc.connect(subGain);
+        subGain.connect(masterGain);
+        subOsc.start(now);
+        subOsc.stop(now + duration);
+        screamNodes.push(subOsc);
+
+      } catch (err) {
+        console.error("Audio API error:", err);
+      }
+    }
+
+    /**
+     * Generador de curva de distorsión para audio áspero
+     */
+    function makeDistortionCurve(amount) {
+      const k = typeof amount === 'number' ? amount : 50;
+      const n_samples = 44100;
+      const curve = new Float32Array(n_samples);
+      const deg = Math.PI / 180;
+      for (let i = 0; i < n_samples; ++i) {
+        let x = (i * 2) / n_samples - 1;
+        curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+      }
+      return curve;
+    }
+
+    /**
+     * Intenta entrar a pantalla completa para maximizar el susto
+     */
+    function requestFullScreenMode() {
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen().catch(() => {});
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
+    }
+
+    /**
+     * Salir de pantalla completa al revelar la broma
+     */
+    function exitFullScreenMode() {
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+    }
+
+    /**
+     * Dispara la secuencia del Jumpscare
+     */
+    function triggerPrank() {
+      if (isTriggered) return;
+      isTriggered = true;
+
+      // 1. Tratar de forzar pantalla completa
+      requestFullScreenMode();
+
+      // 2. Ejecutar sonido estruendoso
+      playScreamAudio();
+
+      // 3. Mostrar pantalla de terror con parpadeo
+      screamerContainer.classList.remove('hidden');
+      screamerContainer.classList.add('flex', 'screamer-active');
+      baitScreen.style.opacity = '0';
+
+      // 4. Duración del susto: ~3.5 segundos antes de calmar la situación
+      setTimeout(() => {
+        screamerContainer.classList.remove('flex', 'screamer-active');
+        screamerContainer.classList.add('hidden');
+        exitFullScreenMode();
+
+        // Mostrar pantalla de alivio/broma
+        revealModal.classList.remove('hidden');
+        revealModal.classList.add('flex');
+      }, 3500);
+    }
+
+    /**
+     * Reiniciar todo al estado original
+     */
+    function resetPrank() {
+      revealModal.classList.remove('flex');
+      revealModal.classList.add('hidden');
+      baitScreen.style.opacity = '1';
+      isTriggered = false;
+
+      // Detener cualquier sonido remanente
+      if (audioCtx) {
+        try {
+          audioCtx.close();
+        } catch (e) {}
+        audioCtx = null;
+      }
+    }
+
+    // Eventos de interacción
+    targetArea.addEventListener('click', triggerPrank);
+    triggerButton.addEventListener('click', triggerPrank);
+    resetBtn.addEventListener('click', resetPrank);
+
+    // Soporte para accesibilidad vía teclado en el área objetivo
+    targetArea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerPrank();
+      }
+    });
+
+    // Copiar URL al portapapeles sin alert()
+    copyLinkBtn.addEventListener('click', () => {
+      const url = window.location.href;
+      
+      // Fallback robusto usando input y execCommand para entornos con iframes
+      const tempInput = document.createElement('input');
+      tempInput.value = url;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        copyText.textContent = "¡Enlace copiado! 📋 Envíalo a tu víctima";
+        setTimeout(() => {
+          copyText.textContent = "Copiar enlace para asustar a un amigo";
+        }, 3000);
+      } catch (err) {
+        copyText.textContent = "Copia la URL de tu barra de navegación";
+      }
+      document.body.removeChild(tempInput);
+    });
+  </script>
+</body>
+</html>
